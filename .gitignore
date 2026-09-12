@@ -1,0 +1,49 @@
+# ---- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+ 
+# ---- Environment ---
+.env
+.env.local
+*.local.yml
+ 
+# ---- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ 
+# ---- Model artefacts ---
+*.pt
+*.pth
+*.h5
+*.onnx
+*.pkl
+*.joblib
+mlruns/
+mlartifacts/
+ 
+# ---- Data (tracked by DVC, not Git) ---
+data/raw/*
+data/interim/*
+data/processed/*
+!data/**/.gitkeep
+!data/**/*.dvc
+ 
+# ---- Docker / infra ---
+docker-compose.override.yml
+*.log
+logs/
+
+# ---- AegisFlow specific ---
+data/raw/paysim/
+data/raw/ieee-cis/
+config/*.secret.yml
+kafka-data/
