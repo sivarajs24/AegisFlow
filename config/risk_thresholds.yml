@@ -1,0 +1,13 @@
+bands:
+  low:      { min: 0,  max: 34, action: allow }
+  medium:   { min: 35, max: 54, action: allow_monitor }
+  high:     { min: 55, max: 79, action: review }
+  critical: { min: 80, max: 100, action: block }
+ 
+rules:
+  R001_HIGH_VALUE:        { weight: 25, threshold_amount: 500000 }
+  R002_VELOCITY_1H:       { weight: 20, max_txn_per_hour: 12 }
+  R003_STRUCTURING:       { weight: 35, window_hours: 24, report_limit: 1000000 }
+  R004_NEW_BENEFICIARY:   { weight: 15, account_age_days: 7 }
+  R005_HIGH_RISK_COUNTRY: { weight: 30 }
+  R006_DORMANT_REACTIVATION: { weight: 20, dormancy_days: 180 }

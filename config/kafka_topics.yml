@@ -1,0 +1,19 @@
+topics:
+  - name: txn.raw
+    partitions: 6
+    replication: 1
+    config:
+      retention.ms: 604800000     # 7 days — enough to replay a week
+  - name: txn.scored
+    partitions: 6
+    replication: 1
+    config:
+      retention.ms: 604800000
+  - name: txn.alerted
+    partitions: 3
+    replication: 1
+    config:
+      retention.ms: 2592000000    # 30 days — alerts are reviewed slowly
+  - name: txn.dlq
+    partitions: 1
+    replication: 1
