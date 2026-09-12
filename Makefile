@@ -1,5 +1,8 @@
 .PHONY: up down logs ps db-init seed data verify test lint clean reset
 
+include .env
+export
+
 COMPOSE = docker compose -p aegisflow
 
 up:
@@ -19,14 +22,15 @@ logs:
 	$(COMPOSE) logs -f --tail=100
 
 db-init:
-	docker compose exec -T postgres psql -U $${DB_USER} -d $${DB_NAME} -f /docker-entrypoint-initdb.d/01_init.sql
-
+	$(COMPOSE) exec -T postgres psql -U $(DB_USER) -d $(DB_NAME) -f /docker-entrypoint-initdb.d/01_init.sql
+seed: export DB_HOST = localhost
 seed:
 	python scripts/seed_db.py
 
 data:
 	python scripts/download_datasets.py
 
+verify: export DB_HOST = localhost
 verify:
 	python scripts/verify_m1.py
 

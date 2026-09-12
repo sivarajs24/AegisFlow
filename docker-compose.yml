@@ -41,7 +41,7 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS:-aegis_dev_2026}
       POSTGRES_DB: ${DB_NAME:-aegisflow}
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
       - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
