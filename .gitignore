@@ -20,7 +20,7 @@ htmlcov/
 .DS_Store
 Thumbs.db
  
-# ---- Model artefacts ---
+# ---- Model artefacts ----
 *.pt
 *.pth
 *.h5
