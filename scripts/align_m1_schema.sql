@@ -10,6 +10,22 @@ ALTER TABLE accounts ALTER COLUMN account_number DROP NOT NULL;
 ALTER TABLE accounts ALTER COLUMN account_type DROP NOT NULL;
 ALTER TABLE accounts ALTER COLUMN opened_on DROP NOT NULL;
 
+CREATE OR REPLACE FUNCTION sync_account_id() RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.id IS NOT NULL AND (NEW.account_id IS NULL OR NEW.account_id != NEW.id) THEN
+        NEW.account_id := NEW.id;
+    ELSIF NEW.id IS NULL AND NEW.account_id IS NOT NULL THEN
+        NEW.id := NEW.account_id;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS trg_sync_account_id ON accounts;
+CREATE TRIGGER trg_sync_account_id
+BEFORE INSERT ON accounts
+FOR EACH ROW EXECUTE FUNCTION sync_account_id();
+
 -- 2. Devices table
 CREATE TABLE IF NOT EXISTS devices (
     id UUID PRIMARY KEY
