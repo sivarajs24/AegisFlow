@@ -14,6 +14,20 @@ depends_on = None
 EDGE_KEY = "src_type, src_id, dst_type, dst_id, edge_type"
 
 def upgrade():
+    # 0. Create entity_edges if not already created in M1
+    op.execute("""
+        CREATE TABLE IF NOT EXISTS entity_edges (
+            id BIGSERIAL PRIMARY KEY,
+            src_type VARCHAR(16) NOT NULL,
+            src_id UUID NOT NULL,
+            dst_type VARCHAR(16) NOT NULL,
+            dst_id UUID NOT NULL,
+            edge_type VARCHAR(32) NOT NULL,
+            first_seen TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            weight INT NOT NULL DEFAULT 1
+        )
+    """)
+
     # 1. Merge duplicate edges M1 may have written, so the unique index can be built.
     op.execute(f"""
         UPDATE entity_edges k SET weight = d.total, first_seen = d.first
