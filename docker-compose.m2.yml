@@ -1,0 +1,29 @@
+# docker-compose.m2.yml - layered on the M1 stack:
+# docker compose -f docker-compose.yml -f docker-compose.m2.yml up -d --build
+# Assumes M1 services named `postgres` and `redis`; rename below if yours differ.
+services:
+  ingestion:
+    build:
+      context: .
+      dockerfile: services/ingestion/Dockerfile
+    container_name: aegisflow-ingestion
+    depends_on: [postgres, redis]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${DB_USER:-aegis}:${DB_PASS:-aegis_dev_2026}@postgres:5432/${DB_NAME:-aegisflow}
+      REDIS_URL: redis://redis:6379/0
+      SERVICE_KEY: ${SERVICE_KEY:?set SERVICE_KEY in .env}
+    ports: ["8001:8001"]
+    restart: unless-stopped
+    networks: [aegisnet]
+
+  graph-job:
+    build:
+      context: .
+      dockerfile: ml/Dockerfile.graph
+    container_name: aegisflow-graph-job
+    depends_on: [postgres, redis]
+    environment:
+      DATABASE_URL: postgresql+psycopg://${DB_USER:-aegis}:${DB_PASS:-aegis_dev_2026}@postgres:5432/${DB_NAME:-aegisflow}
+      REDIS_URL: redis://redis:6379/0
+    restart: unless-stopped
+    networks: [aegisnet]
