@@ -1,0 +1,8 @@
+stages:
+  features_pit:
+    cmd: PYTHONPATH=ml/src python -m aegis_ml.features.offline --out data/features/features_pit.parquet
+    deps:
+      - ml/src/aegis_ml/features
+    outs:
+      - data/features/features_pit.parquet
+    always_changed: true

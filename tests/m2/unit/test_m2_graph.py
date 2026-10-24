@@ -1,5 +1,6 @@
 """Graph features on a ring fixture: A, B, C share device D; A is known fraud;
 E is alone on device F."""
+# pyrefly: ignore[missing-import]
 from aegis_ml.features.graph_features import build_graph, compute
 
 EDGES = [("account", "A", "device", "D", 1), ("account", "B", "device", "D", 3),
