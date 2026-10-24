@@ -59,7 +59,6 @@ make verify      # M1 acceptance checks
  
 ## Tech Stack
  - **Kafka** — Transaction event bus — topics for raw, scored and alerted events- **Zookeeper** — Kafka coordination (single-node dev mode)- **PostgreSQL** — System of record for accounts, alerts, cases and audit- **Redis** — Velocity counters and hot feature cache- **MLflow** — Experiment tracking and model registry from M2 onward- **Kafka UI** — Topic inspection during development
- 
-## License
- 
+
+## License 
 MIT
